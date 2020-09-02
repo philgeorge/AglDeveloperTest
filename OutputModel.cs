@@ -8,7 +8,7 @@ namespace AglDeveloperTest.OutputModel
         public ICollection<string> CatNames { get; set; }
     }
 
-    public class OutputModel
+    public class Model
     {
         public ICollection<GenderAndCats> Genders {get;set;}
     }

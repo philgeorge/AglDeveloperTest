@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace AglDeveloperTest.Tests
 {
-    [TestFixture]
     public class PeopleConverterTests
     {
         private PeopleConverter _pc = new PeopleConverter();

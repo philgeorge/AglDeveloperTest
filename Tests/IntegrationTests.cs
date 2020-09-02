@@ -5,7 +5,6 @@ using NUnit.Framework;
 namespace AglDeveloperTest.Tests
 {
     [Category("Integration")]
-    [TestFixture]
     public class IntegrationTests
     {
         [Test]
@@ -14,13 +13,12 @@ namespace AglDeveloperTest.Tests
             var logger = new TestContextLogger();
             var reader = new PeopleJsonReader(logger);
             var jsonModel = await reader.GetModel();
-            if (jsonModel != null)
-            {
-                var converter = new PeopleConverter();
-                var model = converter.Convert(jsonModel);
-                var writer = new ConsoleOutputWriter(logger);
-                writer.Write(model);
-            }
+            Assert.IsNotNull(jsonModel);
+
+            var converter = new PeopleConverter();
+            var model = converter.Convert(jsonModel);
+            var writer = new ConsoleOutputWriter(logger);
+            writer.Write(model);
         }
     }
 }

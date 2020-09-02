@@ -11,7 +11,9 @@ namespace AglDeveloperTest
 {
     public class PeopleJsonReader
     {
-        private const string _baseUrl = "http://agl-developer-test.azurewebsites.net/"; // this would more normally be an app setting, if we were working with a API that exposed test and production end points
+        // this would more normally be an app setting, if we were working with a API that exposed separate test and production end points
+        private const string _baseUrl = "http://agl-developer-test.azurewebsites.net/";
+
         private ILogger _logger;
 
         public PeopleJsonReader(ILogger logger)
@@ -34,10 +36,7 @@ namespace AglDeveloperTest
 
         private async Task<string> GetJsonString()
         {
-            // I am well aware of the problems with using HttpClient directly
-            // https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/use-httpclientfactory-to-implement-resilient-http-requests
-            // However in the case of a simple console app which makes one API call and then exits, it is a non-issue. For longer running processes, the HttpClientFactory should be used.
-            using (var httpClient = new HttpClient())
+            using (var httpClient = new HttpClient()) // see not on HttpClient usage in README.md file
             {
                 httpClient.BaseAddress = new Uri(_baseUrl);
                 httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -53,7 +52,6 @@ namespace AglDeveloperTest
                 _logger.Error($"JSON Request failed with {response.StatusCode}");
                 return null;
             }
-
         }
     }
 }

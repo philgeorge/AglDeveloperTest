@@ -14,15 +14,16 @@ namespace AglDeveloperTest
 
             var reader = new PeopleJsonReader(logger);
             var jsonModel = await reader.GetModel();
-
             if (jsonModel != null)
             {
-                Console.WriteLine($"Number of people: {jsonModel.Owners.Count}");
-            }
+                logger.WriteLine($"JSON fetched {jsonModel.Owners.Count} owners");
 
-            //todo: method to transform
+                var converter = new PeopleConverter();
+                var model = converter.Convert(jsonModel);
+                var writer = new ConsoleOutputWriter(logger);
+                writer.Write(model);
+            }
             
-            //todo: unit tests            
             //todo: DI for JSON web request and Console output
 
             // HttpClientFactory for web request - note where to add auth, retries, etc.

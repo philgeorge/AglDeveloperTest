@@ -50,7 +50,7 @@ namespace AglDeveloperTest
                     return responseBody;
                 }
 
-                _logger.WriteLine($"JSON Request failed with {response.StatusCode}");
+                _logger.Error($"JSON Request failed with {response.StatusCode}");
                 return null;
             }
 

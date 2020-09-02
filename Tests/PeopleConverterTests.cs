@@ -122,5 +122,26 @@ namespace AglDeveloperTest.Tests
                 }
             };
         }
+
+        [Test]
+        public void MultipleOfSameGender_ReturnsCombinedGender()
+        {
+            var input = new People
+            {
+                Owners = new []
+                {
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "cat 1", Type = "cat" } } },
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "cat 2", Type = "cat" } } },
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "cat 3", Type = "cat" } } }
+                }
+            };
+
+            var model = _pc.Convert(input);
+
+            Assert.AreEqual(1, model.Genders.Count);
+            var gender = model.Genders.First();
+            Assert.AreEqual("Female", gender.Gender);
+            Assert.AreEqual(3, gender.CatNames.Count);
+        }
     }
 }

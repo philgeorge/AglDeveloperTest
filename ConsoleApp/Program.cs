@@ -1,5 +1,4 @@
 ﻿using AglDeveloperTest.Output;
-using System;
 using System.Threading.Tasks;
 
 namespace AglDeveloperTest
@@ -16,15 +15,13 @@ namespace AglDeveloperTest
             var jsonModel = await reader.GetModel();
             if (jsonModel != null)
             {
-                logger.WriteLine($"JSON fetched {jsonModel.Owners.Count} owners");
-
                 var converter = new PeopleConverter();
                 var model = converter.Convert(jsonModel);
                 var writer = new ConsoleOutputWriter(logger);
                 writer.Write(model);
             }
             
-            //todo: DI for JSON web request and Console output
+            // todo: DI for JSON web request and Console output
 
             // HttpClientFactory for web request - note where to add auth, retries, etc.
 

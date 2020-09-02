@@ -3,6 +3,7 @@ using AglDeveloperTest.OutputModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AglDeveloperTest
 {
@@ -22,17 +23,17 @@ namespace AglDeveloperTest
             }
             else
             {
-                genders = people.Owners.Select(owner => new GenderAndCats
+                genders = people.Owners.GroupBy(o => o.Gender).Select(group => new GenderAndCats
                 {
-                    Gender = owner.Gender.ToString(),
-                    CatNames = MapPetsToCatNames(owner.Pets)
+                    Gender = group.Key.ToString(),
+                    CatNames = MapPetsToCatNames(group.SelectMany(o => o.Pets ?? new Pet[0]))
                 }).ToList();
             }
 
             return new Model { Genders = genders };
         }
 
-        private IList<string> MapPetsToCatNames(ICollection<Pet> pets)
+        private IList<string> MapPetsToCatNames(IEnumerable<Pet> pets)
         {
             if (pets == null)
             {

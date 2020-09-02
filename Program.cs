@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AglDeveloperTest.Output;
+using System;
 using System.Threading.Tasks;
 
 namespace AglDeveloperTest
@@ -9,7 +10,9 @@ namespace AglDeveloperTest
         {
             // see http://agl-developer-test.azurewebsites.net/
 
-            var reader = new PeopleJsonReader();
+            var logger = new ConsoleLogger();
+
+            var reader = new PeopleJsonReader(logger);
             var jsonModel = await reader.GetModel();
 
             if (jsonModel != null)

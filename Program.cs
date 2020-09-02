@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace AglDeveloperTest
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] _)
         {
             // see http://agl-developer-test.azurewebsites.net/
 
-            Console.WriteLine("Hello World!");
+            var reader = new PeopleJsonReader();
+            var jsonModel = await reader.GetModel();
 
-            //todo: create model for JSON response
-            //todo: create model for required output
+            if (jsonModel != null)
+            {
+                Console.WriteLine($"Number of people: {jsonModel.Owners.Count}");
+            }
+
             //todo: method to transform
             
             //todo: unit tests            

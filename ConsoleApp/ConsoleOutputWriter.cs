@@ -4,9 +4,9 @@ namespace AglDeveloperTest.Output
 {
     public class ConsoleOutputWriter
     {
-        private ConsoleLogger _logger;
+        private ILogger _logger;
 
-        public ConsoleOutputWriter(ConsoleLogger logger)
+        public ConsoleOutputWriter(ILogger logger)
         {
             _logger = logger;
         }
@@ -18,7 +18,7 @@ namespace AglDeveloperTest.Output
                 _logger.WriteLine(gender.Gender);
                 foreach(var cat in gender.CatNames)
                 {
-                    _logger.WriteLine($"• {cat}");
+                    _logger.WriteLine($"* {cat}");
                 }
             }
         }

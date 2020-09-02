@@ -72,9 +72,8 @@ namespace AglDeveloperTest.Tests
             var model = _pc.Convert(input);
 
             Assert.AreEqual(2, model.Genders.Count);
-            var lastGender = model.Genders.Last();
-            Assert.AreEqual("Male", lastGender.Gender);
-            Assert.AreEqual(catCount, lastGender.CatNames.Count);
+            var male = model.Genders.Single(g => g.Gender == "Male");
+            Assert.AreEqual(catCount, male.CatNames.Count);
         }
 
         [Test]
@@ -95,11 +94,9 @@ namespace AglDeveloperTest.Tests
 
             var model = _pc.Convert(input);
 
-            var lastGender = model.Genders.Last();
-            var catNames = lastGender.CatNames.ToList();
-            Assert.AreEqual(2, catNames.Count);
-            Assert.AreEqual(cat1, catNames[0]);
-            Assert.AreEqual(cat2, catNames[1]);
+            var male = model.Genders.Single(g => g.Gender == "Male");
+            CollectionAssert.Contains(male.CatNames, cat1);
+            CollectionAssert.Contains(male.CatNames, cat2);
         }
 
         private static List<Owner> MakeOwnerList(List<Pet> philsPets)
@@ -141,6 +138,25 @@ namespace AglDeveloperTest.Tests
             var gender = model.Genders.First();
             Assert.AreEqual("Female", gender.Gender);
             Assert.AreEqual(3, gender.CatNames.Count);
+        }
+
+        [Test]
+        public void CatNames_ReturnedInAlphabeticalOrder()
+        {
+            var input = new People
+            {
+                Owners = new []
+                {
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "b", Type = "cat" } } },
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "d", Type = "cat" }, new Pet { Name = "a", Type = "cat" } } },
+                    new Owner { Gender = Gender.Female, Pets = new [] { new Pet { Name = "c", Type = "cat" } } }
+                }
+            };
+
+            var model = _pc.Convert(input);
+
+            var female = model.Genders.First();
+            CollectionAssert.IsOrdered(female.CatNames);
         }
     }
 }

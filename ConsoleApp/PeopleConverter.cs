@@ -25,20 +25,20 @@ namespace AglDeveloperTest
                 genders = people.Owners.GroupBy(o => o.Gender).Select(group => new GenderAndCats
                 {
                     Gender = group.Key.ToString(),
-                    CatNames = MapPetsToCatNames(group.SelectMany(o => o.Pets ?? new Pet[0]))
+                    CatNames = MapPetsToCatNames(group.SelectMany(o => o.Pets ?? new Pet[0])).OrderBy(c => c).ToList()
                 }).ToList();
             }
 
             return new Model { Genders = genders };
         }
 
-        private IList<string> MapPetsToCatNames(IEnumerable<Pet> pets)
+        private IEnumerable<string> MapPetsToCatNames(IEnumerable<Pet> pets)
         {
             if (pets == null)
             {
                 return new List<string>();
             }
-            return pets.Where(p=> IsCat(p.Type)).Select(p => p.Name).ToList();
+            return pets.Where(p=> IsCat(p.Type)).Select(p => p.Name);
         }
 
         private bool IsCat(string petType)
